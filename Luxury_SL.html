@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUXURY_SL - Plataforma de Robótica</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        /* Estilos base (Fondo oscuro) */
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+            background-image: radial-gradient(circle at center, rgba(153, 153, 153, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+     
+        .gradient-text-hero {
+            background-image: linear-gradient(to right, #999999, #ffffff, #999999);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+        }
+        .gradient-text-features {
+            background-image: linear-gradient(to right, #999999, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+        }
+
+        
+        @keyframes pulse-blur-1 {
+            0%, 100% { transform: scale(1) translate(-25%, -25%); opacity: 0.3; }
+            50% { transform: scale(1.2) translate(-25%, -25%); opacity: 0.5; }
+        }
+        @keyframes pulse-blur-2 {
+            0%, 100% { transform: scale(1.2) translate(25%, 25%); opacity: 0.3; }
+            50% { transform: scale(1) translate(25%, 25%); opacity: 0.5; }
+        }
+        @keyframes float-logo {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes fadeInFromBottom {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animated-bg-1 { animation: pulse-blur-1 8s infinite ease-in-out; }
+        .animated-bg-2 { animation: pulse-blur-2 8s infinite ease-in-out 1s; }
+        .floating-logo { animation: float-logo 3s infinite ease-in-out; }
+        
+       
+        .initial-fade-in { opacity: 0; transform: translateY(30px); animation: fadeInFromBottom 0.8s ease-out forwards; }
+        
+      
+        .card-hover-effect { transition: all 0.3s ease-in-out; }
+        .card-hover-effect:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4); }
+
+        
+        .page-section { display: none; }
+        .page-section.active { display: block; }
+        
+    </style>
+</head>
+<body>
+
+    <nav class="fixed top-0 left-0 w-full bg-black/80 backdrop-blur-sm z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-4 flex justify-between items-center">
+            <a href="#home" class="text-2xl font-extrabold text-white tracking-widest" onclick="showPage('home')">
+                LUXURY_SL
+            </a>
+            <div class="flex space-x-6">
+                <a href="#home" class="nav-link text-[#999999] hover:text-white transition duration-300 font-semibold" onclick="showPage('home')">Inicio</a>
+                <a href="#about" class="nav-link text-[#999999] hover:text-white transition duration-300 font-semibold" onclick="showPage('about')">Sobre el Proyecto</a>
+                <a href="#architecture" class="nav-link text-[#999999] hover:text-white transition duration-300 font-semibold" onclick="showPage('architecture')">Arquitectura</a>
+                <a href="#arduino" class="nav-link text-[#999999] hover:text-white transition duration-300 font-semibold" onclick="showPage('arduino')">Arduino</a>
+                </div>
+
+            <div id="auth-buttons" class="flex gap-3 items-center">
+                
+                <span id="username-display" class="text-white font-bold px-3 py-2 bg-transparent rounded-full hidden"></span>
+
+                <a id="login-btn" href="#login" onclick="showPage('login')" class="group relative px-4 py-2 bg-gradient-to-r from-[#6b6b6b] to-[#999999] rounded-full font-semibold text-white overflow-hidden transition-all hover:scale-105 hover:shadow-lg hover:shadow-white/20">
+                    <span class="relative z-10">
+                        Iniciar Sesión
+                    </span>
+                </a>
+                <a id="register-btn" href="#register" onclick="showPage('register')" class="group relative px-4 py-2 border border-[#999999] rounded-full font-semibold text-[#999999] overflow-hidden transition-all hover:scale-105 hover:bg-[#999999] hover:text-black">
+                    <span class="relative z-10">
+                        Crear Cuenta
+                    </span>
+                </a>
+                <button id="logout-btn" onclick="simulateLogout()" class="hidden px-4 py-2 bg-[#6b6b6b] text-white rounded-full font-semibold transition-all hover:scale-105 hover:bg-[#999999]/80">
+                    Cerrar Sesión
+                </button>
+            </div>
+            </div>
+    </nav>
+    
+    <div id="home-page" class="page-section active">
+        <section class="relative min-h-screen flex items-center justify-center overflow-hidden px-6 pt-24">
+            <div class="absolute inset-0">
+                <div class="animated-bg-1 absolute w-96 h-96 bg-[#6b6b6b]/20 rounded-full blur-3xl"></div>
+                <div class="animated-bg-2 absolute w-96 h-96 bg-[#999999]/20 rounded-full blur-3xl"></div>
+            </div>
+            <div class="relative z-10 text-center max-w-5xl mx-auto">
+                <div class="mb-8 initial-fade-in" style="animation-delay: 0s;">
+                    <img
+                        src="https://i.imgur.com/FG6uNYF.png"
+                        alt="LUXURY_SL Logo"
+                        class="h-40 md:h-48 mx-auto drop-shadow-2xl floating-logo"
+                    />
+                </div>
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 initial-fade-in" style="animation-delay: 0.3s;">
+                    <span class="gradient-text-hero">
+                        Bienvenido a
+                    </span>
+                    <br />
+                    <span class="text-white">LUXURY_SL</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-[#999999] mb-12 max-w-3xl mx-auto leading-relaxed initial-fade-in" style="animation-delay: 0.5s;">
+                    La fusión perfecta entre **diseño 3D**, **robótica física** y **control digital**.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center initial-fade-in" style="animation-delay: 0.7s;">
+                    <a href="#about" onclick="showPage('about')">
+                        <button class="group relative px-8 py-4 bg-gradient-to-r from-[#6b6b6b] to-[#999999] rounded-full font-semibold text-white overflow-hidden transition-all hover:scale-105 hover:shadow-lg hover:shadow-white/20">
+                            <span class="relative z-10 flex items-center gap-2">
+                                Conocer Más
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 group-hover:translate-x-1 transition-transform"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                            </span>
+                            <div class="absolute inset-0 bg-gradient-to-r from-[#999999] to-white opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+                <div class="w-6 h-10 border-2 border-[#6b6b6b]/50 rounded-full flex justify-center">
+                    <div class="w-1.5 h-1.5 bg-[#999999] rounded-full mt-2"></div>
+                </div>
+            </div>
+        </section>
+        ---
+        <section id="features" class="py-24 px-6">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16 initial-fade-in" style="animation-delay: 0.9s;">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-4">
+                        <span class="gradient-text-features">
+                            Características Principales
+                        </span>
+                    </h2>
+                    <p class="text-[#999999] text-lg max-w-2xl mx-auto">
+                        Tecnología de vanguardia
+                    </p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="card-hover-effect initial-fade-in group relative bg-gradient-to-br from-[#000000] to-[#0D0D0D] border border-[#6b6b6b]/20 rounded-2xl p-6 hover:border-[#999999]/50" style="animation-delay: 1.0s;">
+                        <div class="absolute inset-0 bg-gradient-to-br from-[#6b6b6b]/0 to-[#999999]/0 group-hover:from-[#6b6b6b]/10 group-hover:to-[#999999]/10 rounded-2xl transition-all"></div>
+                        <div class="relative">
+                            <div class="mb-4 inline-block p-3 bg-gradient-to-br from-[#6b6b6b] to-[#999999] rounded-xl">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-white"><rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 9h6v6H9z"/><path d="M9 1v2"/><path d="M15 1v2"/><path d="M9 21v2"/><path d="M15 21v2"/><path d="M1 9h2"/><path d="M1 15h2"/><path d="M21 9h2"/><path d="M21 15h2"/></svg>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2 text-white">Control Inteligente</h3>
+                            <p class="text-[#999999]">Sistema avanzado de control mediante ESP32</p>
+                        </div>
+                    </div>
+                    <div class="card-hover-effect initial-fade-in group relative bg-gradient-to-br from-[#000000] to-[#0D0D0D] border border-[#6b6b6b]/20 rounded-2xl p-6 hover:border-[#999999]/50" style="animation-delay: 1.1s;">
+                        <div class="relative">
+                            <div class="mb-4 inline-block p-3 bg-gradient-to-br from-[#6b6b6b] to-[#999999] rounded-xl">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-white"><path d="M12 20v-8m0-8a10 10 0 0 0-8 4.25A10 10 0 0 0 12 20a10 10 0 0 0 8-4.25A10 10 0 0 0 12 4z"/></svg>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2 text-white">Bluetooth Integrado</h3>
+                            <p class="text-[#999999]">Conectividad inalámbrica de última generación</p>
+                        </div>
+                    </div>
+                    <div class="card-hover-effect initial-fade-in group relative bg-gradient-to-br from-[#000000] to-[#0D0D0D] border border-[#6b6b6b]/20 rounded-2xl p-6 hover:border-[#999999]/50" style="animation-delay: 1.2s;">
+                        <div class="relative">
+                            <div class="mb-4 inline-block p-3 bg-gradient-to-br from-[#6b6b6b] to-[#999999] rounded-xl">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-white"><path d="M12 2L3 6v6c0 5.5 9 8 9 8s9-2.5 9-8V6L12 2z"/></svg>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2 text-white">Seguro y Confiable</h3>
+                            <p class="text-[#999999]">Arquitectura robusta y segura</p>
+                        </div>
+                    </div>
+                    <div class="card-hover-effect initial-fade-in group relative bg-gradient-to-br from-[#000000] to-[#0D0D0D] border border-[#6b6b6b]/20 rounded-2xl p-6 hover:border-[#999999]/50" style="animation-delay: 1.3s;">
+                        <div class="relative">
+                            <div class="mb-4 inline-block p-3 bg-gradient-to-br from-[#6b6b6b] to-[#999999] rounded-xl">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-white"><path d="M13 2l-3 8h5l-3 8h-5l3-8h-5l3-8h5z"/></svg>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2 text-white">Alto Rendimiento</h3>
+                            <p class="text-[#999999]">Respuesta inmediata y precisa</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        ---
+        <section class="py-24 px-6">
+            <div class="max-w-4xl mx-auto bg-gradient-to-r from-[#000000] to-[#0D0D0D] border border-[#6b6b6b]/30 rounded-3xl p-12 text-center backdrop-blur-xl initial-fade-in" style="animation-delay: 1.4s;">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 text-white">
+                    ¿Listo para comenzar?
+                </h2>
+                <p class="text-xl text-[#999999] mb-8">
+                    Explora todas las posibilidades que **LUXURY_SL** tiene para ofrecer
+                </p>
+                <a href="#architecture" onclick="showPage('architecture')">
+                    <button class="group relative px-10 py-5 bg-white text-black rounded-full font-bold text-lg overflow-hidden transition-all hover:scale-105 hover:shadow-2xl hover:shadow-white/30">
+                        <span class="relative z-10 flex items-center gap-2">
+                            Ver Arquitectura
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 group-hover:translate-x-1 transition-transform text-black"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                        </span>
+                    </button>
+                </a>
+            </div>
+        </section>
+    </div>
+    
+    <div id="about-page" class="page-section">
+        <div class="min-h-screen pt-32 pb-24 px-6">
+            <div class="header-section initial-fade-in">
+                <div class="max-w-4xl mx-auto text-center mb-20">
+                    <h1 class="text-5xl md:text-7xl font-bold mb-6">
+                        <span class="gradient-text-hero">
+                            Sobre el
+                        </span>
+                        <br />
+                        <span class="text-white">Proyecto</span>
+                    </h1>
+                    <p class="text-xl text-[#999999] leading-relaxed">
+                        LUXURY_SL es más que un proyecto de robótica. Es una plataforma integral 
+                        que conecta la innovación tecnológica con la educación del futuro.
+                    </p>
+                </div>
+            </div>
+            ---
+            <div class="max-w-6xl mx-auto">
+                <div class="objectives-header-section initial-fade-in text-center mb-12" style="animation-delay: 0.2s;">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-4 text-white">
+                        Nuestros Objetivos
+                    </h2>
+                    <p class="text-[#999999] text-lg">
+                        Cinco pilares fundamentales que guían nuestro desarrollo
+                    </p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="card-hover-effect initial-fade-in group relative bg-gradient-to-br from-[#000000] to-[#0D0D0D] border border-[#6b6b6b]/20 rounded-2xl p-8 hover:border-[#999999]/50" style="animation-delay: 0.3s;">
+                        <div class="absolute inset-0 bg-gradient-to-br from-[#6b6b6b]/0 to-[#999999]/0 group-hover:from-[#6b6b6b]/10 group-hover:to-[#999999]/10 rounded-2xl transition-all"></div>
+                        <div class="relative">
+                            <div class="mb-6 inline-flex p-4 bg-gradient-to-br from-[#6b6b6b] to-[#999999] rounded-xl">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 text-white"><path d="M15 14c.2-1 .5-2 1-3 1-2 1.5-4 1.5-5.5.0-1.2-.5-2.2-1.8-2.2-1.3 0-1.8 1-1.8 2.2 0 1.5.5 3.5 1.5 5.5.5 1 1 2 1 3"/><path d="M14 19H9"/><path d="M12 21v-2"/></svg>
+                            </div>
+                            <div class="absolute top-0 right-0 text-6xl font-bold text-[#6b6b6b]/10">01</div>
+                            <h3 class="text-2xl font-bold mb-3 text-white">Control Remoto Bluetooth</h3>
+                            <p class="text-[#999999] leading-relaxed">Implementar un sistema de control remoto mediante Bluetooth de alta precisión.</p>
+                        </div>
+                    </div>
+                    <div class="card-hover-effect initial-fade-in group relative bg-gradient-to-br from-[#000000] to-[#0D0D0D] border border-[#6b6b6b]/20 rounded-2xl p-8 hover:border-[#999999]/50" style="animation-delay: 0.4s;">
+                        <div class="absolute inset-0 bg-gradient-to-br from-[#6b6b6b]/0 to-[#999999]/0 group-hover:from-[#6b6b6b]/10 group-hover:to-[#999999]/10 rounded-2xl transition-all"></div>
+                        <div class="relative">
+                            <div class="mb-6 inline-flex p-4 bg-gradient-to-br from-[#6b6b6b] to-[#999999] rounded-xl">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 text-white"><path d="M2 12s3-4 10-4 10 4 10 4-3 4-10 4-10-4-10-4z"/><path d="M12 8v8M5 12h14"/></svg>
+                            </div>
+                            <div class="absolute top-0 right-0 text-6xl font-bold text-[#6b6b6b]/10">02</div>
+                            <h3 class="text-2xl font-bold mb-3 text-white">Recursos Educativos</h3>
+                            <p class="text-[#999999] leading-relaxed">Ofrecer recursos educativos, guías y tutoriales completos y accesibles.</p>
+                        </div>
+                    </div>
+                    <div class="card-hover-effect initial-fade-in group relative bg-gradient-to-br from-[#000000] to-[#0D0D0D] border border-[#6b6b6b]/20 rounded-2xl p-8 hover:border-[#999999]/50" style="animation-delay: 0.5s;">
+                        <div class="absolute inset-0 bg-gradient-to-br from-[#6b6b6b]/0 to-[#999999]/0 group-hover:from-[#6b6b6b]/10 group-hover:to-[#999999]/10 rounded-2xl transition-all"></div>
+                        <div class="relative">
+                            <div class="mb-6 inline-flex p-4 bg-gradient-to-br from-[#6b6b6b] to-[#999999] rounded-xl">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 text-white"><path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><path d="M22 10V6a2 2 0 0 0-2-2h-3"/><path d="M2 18V6a2 2 0 0 1 2-2h3"/></svg>
+                            </div>
+                            <div class="absolute top-0 right-0 text-6xl font-bold text-[#6b6b6b]/10">03</div>
+                            <h3 class="text-2xl font-bold mb-3 text-white">Colaboración Comunitaria</h3>
+                            <p class="text-[#999999] leading-relaxed">Fomentar la participación y colaboración en una comunidad educativa activa.</p>
+                        </div>
+                    </div>
+                    <div class="card-hover-effect initial-fade-in group relative bg-gradient-to-br from-[#000000] to-[#0D0D0D] border border-[#6b6b6b]/20 rounded-2xl p-8 hover:border-[#999999]/50" style="animation-delay: 0.6s;">
+                        <div class="absolute inset-0 bg-gradient-to-br from-[#6b6b6b]/0 to-[#999999]/0 group-hover:from-[#6b6b6b]/10 group-hover:to-[#999999]/10 rounded-2xl transition-all"></div>
+                        <div class="relative">
+                            <div class="mb-6 inline-flex p-4 bg-gradient-to-br from-[#6b6b6b] to-[#999999] rounded-xl">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 text-white"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                            </div>
+                            <div class="absolute top-0 right-0 text-6xl font-bold text-[#6b6b6b]/10">04</div>
+                            <h3 class="text-2xl font-bold mb-3 text-white">Innovación Tecnológica</h3>
+                            <p class="text-[#999999] leading-relaxed">Promover el desarrollo de soluciones innovadoras y adaptables.</p>
+                        </div>
+                    </div>
+                    <div class="card-hover-effect initial-fade-in group relative bg-gradient-to-br from-[#000000] to-[#0D0D0D] border border-[#6b6b6b]/20 rounded-2xl p-8 hover:border-[#999999]/50" style="animation-delay: 0.7s;">
+                        <div class="absolute inset-0 bg-gradient-to-br from-[#6b6b6b]/0 to-[#999999]/0 group-hover:from-[#6b6b6b]/10 group-hover:to-[#999999]/10 rounded-2xl transition-all"></div>
+                        <div class="relative">
+                            <div class="mb-6 inline-flex p-4 bg-gradient-to-br from-[#6b6b6b] to-[#999999] rounded-xl">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 text-white"><circle cx="12" cy="8" r="7"/><path d="M8.21 13.89 7 22l5-3 5 3-1.21-8.11"/></svg>
+                            </div>
+                            <div class="absolute top-0 right-0 text-6xl font-bold text-[#6b6b6b]/10">05</div>
+                            <h3 class="text-2xl font-bold mb-3 text-white">Herramienta Adaptable</h3>
+                            <p class="text-[#999999] leading-relaxed">Consolidarse como herramienta educativa adaptable a diferentes niveles y contextos.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="max-w-4xl mx-auto mt-20 bg-gradient-to-r from-[#000000] to-[#0D0D0D] border border-[#6b6b6b]/30 rounded-3xl p-12 backdrop-blur-xl initial-fade-in" style="animation-delay: 0.8s;">
+                <h3 class="text-3xl font-bold mb-6 text-center text-white">
+                    Nuestra Misión
+                </h3>
+                <p class="text-xl text-[#999999] text-center leading-relaxed">
+                    Crear una plataforma educativa innovadora que inspire a la próxima generación 
+                    de ingenieros, diseñadores y creadores a través de la combinación perfecta 
+                    entre hardware, software y creatividad.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div id="architecture-page" class="page-section">
+        <div class="min-h-screen pt-32 pb-24 px-6">
+            <div class="initial-fade-in">
+                <div class="max-w-5xl mx-auto text-center mb-20">
+                    <h1 class="text-5xl md:text-7xl font-bold mb-6">
+                        <span class="gradient-text-hero">
+                            Arquitectura
+                        </span>
+                        <br />
+                        <span class="text-white">del Sistema</span>
+                    </h1>
+                    <p class="text-xl text-[#999999] leading-relaxed">
+                        Una arquitectura moderna, escalable y robusta diseñada para 
+                        conectar el mundo digital con el físico de manera fluida.
+                    </p>
+                </div>
+            </div>
+            ---
+            <div class="max-w-7xl mx-auto mb-20">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="card-hover-effect initial-fade-in group relative bg-gradient-to-br from-[#000000] to-[#0D0D0D] border border-[#6b6b6b]/20 rounded-3xl p-8 hover:border-[#999999]/50 transition-all overflow-hidden" style="animation-delay: 0.1s;">
+                        <div class="absolute inset-0 bg-gradient-to-br from-[#6b6b6b] to-[#999999] opacity-0 group-hover:opacity-5 transition-opacity"></div>
+                        <div class="relative">
+                            <div class="mb-6 inline-flex p-5 bg-gradient-to-br from-[#6b6b6b] to-[#999999] rounded-2xl shadow-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-10 h-10 text-white"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                            </div>
+                            <h3 class="text-3xl font-bold mb-4 text-white">Cliente / Usuario</h3>
+                            <p class="text-[#999999] mb-6 leading-relaxed">Interfaz web responsiva que permite controlar y visualizar el modelo 3D en tiempo real.</p>
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-2 text-sm text-[#999999]"><div class="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-[#6b6b6b] to-[#999999]"></div>Diseño intuitivo</div>
+                                <div class="flex items-center gap-2 text-sm text-[#999999]"><div class="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-[#6b6b6b] to-[#999999]"></div>Control en tiempo real</div>
+                                <div class="flex items-center gap-2 text-sm text-[#999999]"><div class="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-[#6b6b6b] to-[#999999]"></div>Visualización 3D</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-hover-effect initial-fade-in group relative bg-gradient-to-br from-[#000000] to-[#0D0D0D] border border-[#6b6b6b]/20 rounded-3xl p-8 hover:border-[#999999]/50 transition-all overflow-hidden" style="animation-delay: 0.2s;">
+                        <div class="absolute inset-0 bg-gradient-to-br from-[#6b6b6b] to-[#999999] opacity-0 group-hover:opacity-5 transition-opacity"></div>
+                        <div class="relative">
+                            <div class="mb-6 inline-flex p-5 bg-gradient-to-br from-[#6b6b6b] to-[#999999] rounded-2xl shadow-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-10 h-10 text-white"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="10" y1="6" x2="10.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/><line x1="10" y1="18" x2="10.01" y2="18"/></svg>
+                            </div>
+                            <h3 class="text-3xl font-bold mb-4 text-white">Servidor Web (Apache)</h3>
+                            <p class="text-[#999999] mb-6 leading-relaxed">Gestiona peticiones HTTP, APIs REST y mantiene la conexión entre software y hardware.</p>
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-2 text-sm text-[#999999]"><div class="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-[#6b6b6b] to-[#999999]"></div>APIs REST</div>
+                                <div class="flex items-center gap-2 text-sm text-[#999999]"><div class="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-[#6b6b6b] to-[#999999]"></div>WebSocket</div>
+                                <div class="flex items-center gap-2 text-sm text-[#999999]"><div class="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-[#6b6b6b] to-[#999999]"></div>Gestión de sesiones</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-hover-effect initial-fade-in group relative bg-gradient-to-br from-[#000000] to-[#0D0D0D] border border-[#6b6b6b]/20 rounded-3xl p-8 hover:border-[#999999]/50 transition-all overflow-hidden" style="animation-delay: 0.3s;">
+                        <div class="absolute inset-0 bg-gradient-to-br from-[#6b6b6b] to-[#999999] opacity-0 group-hover:opacity-5 transition-opacity"></div>
+                        <div class="relative">
+                            <div class="mb-6 inline-flex p-5 bg-gradient-to-br from-[#6b6b6b] to-[#999999] rounded-2xl shadow-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-10 h-10 text-white"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 9 0 0 0 18 0"/></svg>
+                            </div>
+                            <h3 class="text-3xl font-bold mb-4 text-white">Base de Datos (MySQL)</h3>
+                            <p class="text-[#999999] mb-6 leading-relaxed">Almacena usuarios, configuraciones, registros históricos y datos del sistema.</p>
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-2 text-sm text-[#999999]"><div class="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-[#6b6b6b] to-[#999999]"></div>Datos persistentes</div>
+                                <div class="flex items-center gap-2 text-sm text-[#999999]"><div class="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-[#6b6b6b] to-[#999999]"></div>Historial completo</div>
+                                <div class="flex items-center gap-2 text-sm text-[#999999]"><div class="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-[#6b6b6b] to-[#999999]"></div>Seguridad avanzada</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-hover-effect initial-fade-in group relative bg-gradient-to-br from-[#000000] to-[#0D0D0D] border border-[#6b6b6b]/20 rounded-3xl p-8 hover:border-[#999999]/50 transition-all overflow-hidden" style="animation-delay: 0.4s;">
+                        <div class="absolute inset-0 bg-gradient-to-br from-[#6b6b6b] to-[#999999] opacity-0 group-hover:opacity-5 transition-opacity"></div>
+                        <div class="relative">
+                            <div class="mb-6 inline-flex p-5 bg-gradient-to-br from-[#6b6b6b] to-[#999999] rounded-2xl shadow-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-10 h-10 text-white"><rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 9h6v6H9z"/><path d="M9 1v2"/><path d="M15 1v2"/><path d="M9 21v2"/><path d="M15 21v2"/><path d="M1 9h2"/><path d="M1 15h2"/><path d="M21 9h2"/><path d="M21 15h2"/></svg>
+                            </div>
+                            <h3 class="text-3xl font-bold mb-4 text-white">Arduino ESP32</h3>
+                            <p class="text-[#999999] mb-6 leading-relaxed">Microcontrolador que ejecuta comandos físicos enviados desde la interfaz web.</p>
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-2 text-sm text-[#999999]"><div class="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-[#6b6b6b] to-[#999999]"></div>Bluetooth integrado</div>
+                                <div class="flex items-center gap-2 text-sm text-[#999999]"><div class="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-[#6b6b6b] to-[#999999]"></div>WiFi nativo</div>
+                                <div class="flex items-center gap-2 text-sm text-[#999999]"><div class="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-[#6b6b6b] to-[#999999]"></div>Control preciso</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            ---
+            <div class="max-w-5xl mx-auto mb-20 initial-fade-in" style="animation-delay: 0.5s;">
+                <h2 class="text-4xl font-bold text-center mb-12 text-white">
+                    Flujo de Datos
+                </h2>
+                <div class="bg-gradient-to-br from-[#000000] to-[#0D0D0D] border border-[#6b6b6b]/20 rounded-3xl p-8">
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4 initial-fade-in" style="animation-delay: 0.6s;">
+                            <div class="flex-1 bg-[#0D0D0D]/50 rounded-xl p-4 border border-[#6b6b6b]/20">
+                                <div class="font-semibold text-white">Usuario</div>
+                            </div>
+                            <div class="flex flex-col items-center gap-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-[#999999]"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                                <div class="text-xs text-[#999999] whitespace-nowrap">Interacción</div>
+                            </div>
+                            <div class="flex-1 bg-[#0D0D0D]/50 rounded-xl p-4 border border-[#6b6b6b]/20">
+                                <div class="font-semibold text-white">Interfaz Web</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 initial-fade-in" style="animation-delay: 0.7s;">
+                            <div class="flex-1 bg-[#0D0D0D]/50 rounded-xl p-4 border border-[#6b6b6b]/20">
+                                <div class="font-semibold text-white">Interfaz Web</div>
+                            </div>
+                            <div class="flex flex-col items-center gap-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-[#999999]"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                                <div class="text-xs text-[#999999] whitespace-nowrap">HTTP/WebSocket</div>
+                            </div>
+                            <div class="flex-1 bg-[#0D0D0D]/50 rounded-xl p-4 border border-[#6b6b6b]/20">
+                                <div class="font-semibold text-white">Servidor</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 initial-fade-in" style="animation-delay: 0.8s;">
+                            <div class="flex-1 bg-[#0D0D0D]/50 rounded-xl p-4 border border-[#6b6b6b]/20">
+                                <div class="font-semibold text-white">Servidor</div>
+                            </div>
+                            <div class="flex flex-col items-center gap-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-[#999999]"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                                <div class="text-xs text-[#999999] whitespace-nowrap">Consultas SQL</div>
+                            </div>
+                            <div class="flex-1 bg-[#0D0D0D]/50 rounded-xl p-4 border border-[#6b6b6b]/20">
+                                <div class="font-semibold text-white">Base de Datos</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 initial-fade-in" style="animation-delay: 0.9s;">
+                            <div class="flex-1 bg-[#0D0D0D]/50 rounded-xl p-4 border border-[#6b6b6b]/20">
+                                <div class="font-semibold text-white">Servidor</div>
+                            </div>
+                            <div class="flex flex-col items-center gap-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-[#999999]"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                                <div class="text-xs text-[#999999] whitespace-nowrap">Bluetooth/WiFi</div>
+                            </div>
+                            <div class="flex-1 bg-[#0D0D0D]/50 rounded-xl p-4 border border-[#6b6b6b]/20">
+                                <div class="font-semibold text-white">ESP32</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 initial-fade-in" style="animation-delay: 1.0s;">
+                            <div class="flex-1 bg-[#0D0D0D]/50 rounded-xl p-4 border border-[#6b6b6b]/20">
+                                <div class="font-semibold text-white">ESP32</div>
+                            </div>
+                            <div class="flex flex-col items-center gap-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-[#999999]"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                                <div class="text-xs text-[#999999] whitespace-nowrap">Señales físicas</div>
+                            </div>
+                            <div class="flex-1 bg-[#0D0D0D]/50 rounded-xl p-4 border border-[#6b6b6b]/20">
+                                <div class="font-semibold text-white">Hardware</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            ---
+            <div class="max-w-6xl mx-auto initial-fade-in" style="animation-delay: 1.1s;">
+                <h2 class="text-4xl font-bold text-center mb-12 text-white">
+                    Stack Tecnológico
+                </h2>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                    <div class="card-hover-effect bg-gradient-to-br from-[#000000] to-[#0D0D0D] border border-[#6b6b6b]/20 rounded-2xl p-6 text-center hover:border-[#999999]/50 transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-12 h-12 mx-auto mb-3 text-[#999999]"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="10" y1="6" x2="10.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/><line x1="10" y1="18" x2="10.01" y2="18"/></svg>
+                        <div class="font-semibold text-white mb-1">Apache</div>
+                        <div class="text-xs text-[#999999]">Backend</div>
+                    </div>
+                    <div class="card-hover-effect bg-gradient-to-br from-[#000000] to-[#0D0D0D] border border-[#6b6b6b]/20 rounded-2xl p-6 text-center hover:border-[#999999]/50 transition-all" style="animation-delay: 0.05s;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-12 h-12 mx-auto mb-3 text-[#999999]"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 9 0 0 0 18 0"/></svg>
+                        <div class="font-semibold text-white mb-1">MySQL</div>
+                        <div class="text-xs text-[#999999]">Database</div>
+                    </div>
+                    <div class="card-hover-effect bg-gradient-to-br from-[#000000] to-[#0D0D0D] border border-[#6b6b6b]/20 rounded-2xl p-6 text-center hover:border-[#999999]/50 transition-all" style="animation-delay: 0.10s;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-12 h-12 mx-auto mb-3 text-[#999999]"><rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 9h6v6H9z"/><path d="M9 1v2"/><path d="M15 1v2"/><path d="M9 21v2"/><path d="M15 21v2"/><path d="M1 9h2"/><path d="M1 15h2"/><path d="M21 9h2"/><path d="M21 15h2"/></svg>
+                        <div class="font-semibold text-white mb-1">ESP32</div>
+                        <div class="text-xs text-[#999999]">Hardware</div>
+                    </div>
+                    <div class="card-hover-effect bg-gradient-to-br from-[#000000] to-[#0D0D0D] border border-[#6b6b6b]/20 rounded-2xl p-6 text-center hover:border-[#999999]/50 transition-all" style="animation-delay: 0.15s;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-12 h-12 mx-auto mb-3 text-[#999999]"><path d="M4.9 19.33c.3-.87 1.05-1.74 2.2-2.5 1.5-1 3.3-1.5 5.5-1.5 2.2 0 4 .5 5.5 1.5 1.15.76 1.9 1.63 2.2 2.5"/><path d="M12 4v16"/><path d="M4 8l16 8"/><path d="M4 16l16-8"/></svg>
+                        <div class="font-semibold text-white mb-1">Bluetooth</div>
+                        <div class="text-xs text-[#999999]">Conectividad</div>
+                    </div>
+                    <div class="card-hover-effect bg-gradient-to-br from-[#000000] to-[#0D0D0D] border border-[#6b6b6b]/20 rounded-2xl p-6 text-center hover:border-[#999999]/50 transition-all" style="animation-delay: 0.20s;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-12 h-12 mx-auto mb-3 text-[#999999]"><path d="M17.8 8.8l-1.6 1.6M12 12l2.4 2.4"/><path d="M17.8 8.8a4 4 0 0 0-5.6-5.6l-8.4 8.4a4 4 0 0 0 5.6 5.6l8.4-8.4z"/></svg>
+                        <div class="font-semibold text-white mb-1">3D Graphics</div>
+                        <div class="text-xs text-[#999999]">Visualización</div>
+                    </div>
+                </div>
+            </div>
+            ---
+            <div class="max-w-4xl mx-auto mt-20 bg-gradient-to-r from-[#000000] to-[#0D0D0D] border border-[#6b6b6b]/30 rounded-3xl p-12 backdrop-blur-xl initial-fade-in" style="animation-delay: 1.2s;">
+                <h3 class="text-3xl font-bold mb-8 text-center text-white">
+                    Ventajas de la Arquitectura
+                </h3>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-12 h-12 mx-auto mb-4 text-[#999999]"><path d="M12 20v-8m0-8a10 10 0 0 0-8 4.25A10 10 0 0 0 12 20a10 10 0 0 0 8-4.25A10 10 0 0 0 12 4z"/></svg>
+                        <h4 class="font-semibold text-white mb-2">Conectividad</h4>
+                        <p class="text-sm text-[#999999]">Comunicación inalámbrica confiable</p>
+                    </div>
+                    <div class="text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-12 h-12 mx-auto mb-4 text-[#999999]"><path d="M12 2L3 6v6c0 5.5 9 8 9 8s9-2.5 9-8V6L12 2z"/></svg>
+                        <h4 class="font-semibold text-white mb-2">Seguridad</h4>
+                        <p class="text-sm text-[#999999]">Protección de datos integral</p>
+                    </div>
+                    <div class="text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-12 h-12 mx-auto mb-4 text-[#999999]"><path d="M13 2l-3 8h5l-3 8h-5l3-8h-5l3-8h5z"/></svg>
+                        <h4 class="font-semibold text-white mb-2">Rendimiento</h4>
+                        <p class="text-sm text-[#999999]">Respuesta en tiempo real</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="arduino-page" class="page-section">
+        <div class="min-h-screen pt-32 pb-24 px-6">
+            <div class="initial-fade-in">
+                <div class="max-w-4xl mx-auto text-center mb-20">
+                    <h1 class="text-5xl md:text-7xl font-bold mb-6">
+                        <span class="gradient-text-hero">
+                            Control
+                        </span>
+                        <br />
+                        <span class="text-white">Arduino & Bluetooth</span>
+                    </h1>
+                    <p class="text-xl text-[#999999] leading-relaxed">
+                        Experimenta la conexión directa con el ESP32 para controlar los actuadores en tiempo real.
+                    </p>
+                </div>
+            </div>
+
+            <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-10">
+                <div class="bg-gradient-to-br from-[#000000] to-[#0D0D0D] border border-[#6b6b6b]/30 rounded-3xl p-8 initial-fade-in" style="animation-delay: 0.2s;">
+                    <h2 class="text-3xl font-bold mb-6 text-white text-center">Modelo 3D (Simulación)</h2>
+                    <div class="relative w-full aspect-video bg-[#1A1A1A] rounded-2xl border-2 border-[#6b6b6b]/50 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-24 h-24 text-[#999999] opacity-50"><path d="m21.75 6.25-9.5 5.5-9.5-5.5"/><path d="m12.25 11.75 9.5 5.5-9.5 5.5-9.5-5.5 9.5-5.5z"/><path d="M12 12.25v8.5"/></svg>
+                        <p class="absolute bottom-5 text-sm text-[#999999]">Visualización 3D del robot (marcador de posición)</p>
+                    </div>
+                    <div class="mt-6">
+                        <p class="text-lg font-semibold text-white mb-2">Estado del Hardware:</p>
+                        <div id="hardware-status" class="text-lg font-mono text-green-400">Desconectado</div>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-[#000000] to-[#0D0D0D] border border-[#6b6b6b]/30 rounded-3xl p-8 initial-fade-in" style="animation-delay: 0.4s;">
+                    <h2 class="text-3xl font-bold mb-6 text-white text-center">Panel de Control Bluetooth</h2>
+                    
+                    <div class="mb-8 border-b border-[#6b6b6b]/50 pb-6">
+                        <button onclick="simulateBluetoothConnection()" id="connect-btn" class="w-full group relative px-8 py-3 bg-gradient-to-r from-blue-700 to-blue-500 rounded-full font-semibold text-white transition-all hover:scale-[1.02] hover:shadow-lg hover:shadow-blue-500/20">
+                            <span class="relative z-10 flex items-center justify-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="m7 16-4-4 4-4"/><path d="m17 16 4-4-4-4"/><path d="M3 12h18"/></svg>
+                                Conectar Dispositivo Arduino
+                            </span>
+                        </button>
+                        <p id="connection-status" class="mt-3 text-center text-sm text-[#999999]">Estado: Desconectado</p>
+                    </div>
+
+                    <div class="mb-8">
+                        <h3 class="text-xl font-bold mb-4 text-white text-center">Movimiento</h3>
+                        <div class="grid grid-cols-3 gap-3 max-w-xs mx-auto">
+                            <div class="col-span-3">
+                                <button onclick="sendCommand('ADELANTE')" class="control-btn w-full py-3 bg-gray-700/50 hover:bg-gray-600 rounded-xl transition-colors disabled:opacity-50" disabled>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 mx-auto"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
+                                    ADELANTE
+                                </button>
+                            </div>
+                            <button onclick="sendCommand('IZQUIERDA')" class="control-btn py-3 bg-gray-700/50 hover:bg-gray-600 rounded-xl transition-colors disabled:opacity-50" disabled>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 mx-auto"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+                                IZQUIERDA
+                            </button>
+                            <button onclick="sendCommand('DETENER')" class="control-btn py-3 bg-red-700/50 hover:bg-red-600 rounded-xl transition-colors font-bold disabled:opacity-50" disabled>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 mx-auto"><rect width="10" height="10" x="7" y="7" rx="2"/></svg>
+                                STOP
+                            </button>
+                            <button onclick="sendCommand('DERECHA')" class="control-btn py-3 bg-gray-700/50 hover:bg-gray-600 rounded-xl transition-colors disabled:opacity-50" disabled>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 mx-auto"><path d="m12 5 7 7-7 7"/><path d="M5 12h14"/></svg>
+                                DERECHA
+                            </button>
+                            <div class="col-span-3">
+                                <button onclick="sendCommand('ATRAS')" class="control-btn w-full py-3 bg-gray-700/50 hover:bg-gray-600 rounded-xl transition-colors disabled:opacity-50" disabled>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 mx-auto"><path d="m19 12-7 7-7-7"/><path d="M12 5v14"/></svg>
+                                    ATRÁS
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-bold mb-4 text-white text-center">Luces</h3>
+                        <div class="flex justify-center gap-6">
+                            <button onclick="toggleLight('DELANTERAS')" class="control-btn py-3 px-6 bg-yellow-700/50 hover:bg-yellow-600 rounded-full transition-colors disabled:opacity-50" disabled>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 mx-auto"><path d="M15 14c.2-1 .5-2 1-3 1-2 1.5-4 1.5-5.5.0-1.2-.5-2.2-1.8-2.2-1.3 0-1.8 1-1.8 2.2 0 1.5.5 3.5 1.5 5.5.5 1 1 2 1 3"/><path d="M9 14c-.2-1-.5-2-1-3-1-2-1.5-4-1.5-5.5-.0-1.2.5-2.2 1.8-2.2 1.3 0 1.8 1 1.8 2.2 0 1.5-.5 3.5-1.5 5.5-.5 1-1 2-1 3"/></svg>
+                                DELANTERAS
+                            </button>
+                            <button onclick="toggleLight('TRASERA')" class="control-btn py-3 px-6 bg-red-700/50 hover:bg-red-600 rounded-full transition-colors disabled:opacity-50" disabled>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 mx-auto"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M12 8v8M8 12h8"/></svg>
+                                TRASERAS
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="login-page" class="page-section">
+        <div class="min-h-screen pt-32 pb-24 flex items-center justify-center px-6">
+            <div class="max-w-md w-full bg-gradient-to-br from-[#000000] to-[#0D0D0D] border border-[#6b6b6b]/30 rounded-3xl p-10 text-center initial-fade-in">
+                <h2 class="text-3xl font-bold mb-6 text-white">
+                    Iniciar Sesión
+                </h2>
+                <p class="text-[#999999] mb-8">
+                    Introduce un nombre de usuario para identificarte en la navegación.
+                </p>
+                <div class="space-y-4">
+                    <input id="login-username-input" type="text" placeholder="Nombre de Usuario" class="w-full px-4 py-3 bg-[#1A1A1A] border border-[#6b6b6b]/50 rounded-lg text-white placeholder-[#999999] focus:ring-1 focus:ring-[#999999] focus:border-[#999999]" />
+                    <input id="login-password-input" type="password" placeholder="Contraseña" class="w-full px-4 py-3 bg-[#1A1A1A] border border-[#6b6b6b]/50 rounded-lg text-white placeholder-[#999999] focus:ring-1 focus:ring-[#999999] focus:border-[#999999]" />
+                </div>
+                <button onclick="simulateLogin()" class="mt-8 w-full group relative px-8 py-3 bg-gradient-to-r from-[#6b6b6b] to-[#999999] rounded-full font-semibold text-white transition-all hover:scale-[1.02] hover:shadow-lg hover:shadow-white/20">
+                    <span class="relative z-10">
+                        Acceder a LUXURY_SL
+                    </span>
+                </button>
+                <p class="mt-4 text-sm text-[#999999]">
+                    ¿No tienes cuenta? 
+                    <a href="#register" onclick="showPage('register')" class="text-white hover:underline transition-colors">Crear Cuenta</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div id="register-page" class="page-section">
+        <div class="min-h-screen pt-32 pb-24 flex items-center justify-center px-6">
+            <div class="max-w-md w-full bg-gradient-to-br from-[#000000] to-[#0D0D0D] border border-[#6b6b6b]/30 rounded-3xl p-10 text-center initial-fade-in">
+                <h2 class="text-3xl font-bold mb-6 text-white">
+                    Crear Cuenta
+                </h2>
+                <p class="text-[#999999] mb-8">
+                    Únete a la plataforma de robótica.
+                </p>
+                <div class="space-y-4">
+                    <input type="text" placeholder="Nombre de Usuario" class="w-full px-4 py-3 bg-[#1A1A1A] border border-[#6b6b6b]/50 rounded-lg text-white placeholder-[#999999] focus:ring-1 focus:ring-[#999999] focus:border-[#999999]" />
+                    <input type="email" placeholder="Correo electrónico" class="w-full px-4 py-3 bg-[#1A1A1A] border border-[#6b6b6b]/50 rounded-lg text-white placeholder-[#999999] focus:ring-1 focus:ring-[#999999] focus:border-[#999999]" />
+                    <input type="password" placeholder="Contraseña" class="w-full px-4 py-3 bg-[#1A1A1A] border border-[#6b6b6b]/50 rounded-lg text-white placeholder-[#999999] focus:ring-1 focus:ring-[#999999] focus:border-[#999999]" />
+                </div>
+                <button onclick="simulateLogin()" class="mt-8 w-full group relative px-8 py-3 bg-gradient-to-r from-[#6b6b6b] to-[#999999] rounded-full font-semibold text-white transition-all hover:scale-[1.02] hover:shadow-lg hover:shadow-white/20">
+                    <span class="relative z-10">
+                        Registrar y Acceder
+                    </span>
+                </button>
+                <p class="mt-4 text-sm text-[#999999]">
+                    ¿Ya tienes cuenta? 
+                    <a href="#login" onclick="showPage('login')" class="text-white hover:underline transition-colors">Iniciar Sesión</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="custom-alert" class="fixed bottom-5 right-5 z-[9999] p-4 bg-black/90 border border-[#999999]/50 text-white font-medium rounded-lg shadow-2xl opacity-0 transition-all duration-300 pointer-events-none" style="max-width: 300px;">
+        </div>
+    
+    
+    <script>
+        let isLoggedIn = false;
+        let currentUsername = ''; 
+        let isConnected = false;
+        let lightStatus = {
+            DELANTERAS: false,
+            TRASERA: false
+        };
+
+        function showCustomAlert(message) {
+            const alertBox = document.getElementById('custom-alert');
+            alertBox.textContent = message;
+
+
+            alertBox.classList.remove('opacity-0', 'pointer-events-none');
+            alertBox.classList.add('opacity-100');
+
+            setTimeout(() => {
+                alertBox.classList.remove('opacity-100');
+                alertBox.classList.add('opacity-0');
+            }, 3000); 
+            setTimeout(() => {
+                alertBox.classList.add('pointer-events-none');
+            }, 3300);
+        }
+
+        function showPage(pageId) {
+
+            // Se añade 'arduino' a las páginas restringidas
+            const unrestrictedPages = ['home', 'login', 'register'];
+
+            if (!unrestrictedPages.includes(pageId) && !isLoggedIn) {
+                showCustomAlert('Contenido bloqueado: Debes iniciar sesión para ver esta sección.'); // USANDO NOTIFICACIÓN
+                pageId = 'login'; // Redirigir a la página de login
+            }
+
+            const pages = document.querySelectorAll('.page-section');
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            const targetPage = document.getElementById(pageId + '-page');
+            if (targetPage) {
+                targetPage.classList.add('active');
+                window.scrollTo(0, 0); 
+                history.pushState(null, '', '#' + pageId);
+            } else {
+                
+                document.getElementById('home-page').classList.add('active');
+                history.pushState(null, '', '#home');
+            }
+        }
+
+       
+        function updateAuthButtons() {
+            const loginBtn = document.getElementById('login-btn');
+            const registerBtn = document.getElementById('register-btn');
+            const logoutBtn = document.getElementById('logout-btn');
+            const usernameDisplay = document.getElementById('username-display');
+
+            if (isLoggedIn) {
+            
+                loginBtn.classList.add('hidden');
+                registerBtn.classList.add('hidden');
+                
+                usernameDisplay.textContent = 'Hola, ' + currentUsername;
+                usernameDisplay.classList.remove('hidden'); 
+                
+                logoutBtn.classList.remove('hidden');
+            } else {
+               
+                loginBtn.classList.remove('hidden');
+                registerBtn.classList.remove('hidden');
+                
+                usernameDisplay.classList.add('hidden'); 
+                usernameDisplay.textContent = ''; 
+                
+                logoutBtn.classList.add('hidden');
+            }
+        }
+
+       
+        function simulateLogin() {
+            const usernameInput = document.getElementById('login-username-input');
+            const passwordInput = document.getElementById('login-password-input');
+            
+        
+            let simulatedUserName = usernameInput.value.trim(); 
+
+            if (simulatedUserName === '') {
+            
+                simulatedUserName = 'Invitado'; 
+            }
+            
+       
+            usernameInput.value = ''; 
+            if (passwordInput) {
+                passwordInput.value = '';
+            }
+
+            isLoggedIn = true;
+            currentUsername = simulatedUserName; 
+            updateAuthButtons();
+            showCustomAlert(`¡Inicio de Sesión Exitoso! Bienvenido de vuelta, ${currentUsername}.`); // USANDO NOTIFICACIÓN
+            showPage('home'); // Volver a la página de inicio
+        }
+
+      
+        function simulateLogout() {
+            isLoggedIn = false;
+            currentUsername = ''; 
+            updateAuthButtons();
+            // Asegurarse de desconectar el dispositivo en la simulación
+            if (isConnected) {
+                disconnectBluetooth();
+            }
+            showCustomAlert('Has cerrado sesión correctamente.'); // USANDO NOTIFICACIÓN
+            showPage('home'); // Volver a la página de inicio
+        }
+
+        // --- FUNCIONES ESPECÍFICAS DE ARDUINO/BLUETOOTH ---
+
+        function updateControlButtons() {
+            const controlBtns = document.querySelectorAll('.control-btn');
+            controlBtns.forEach(btn => {
+                btn.disabled = !isConnected;
+            });
+            
+            const connectBtn = document.getElementById('connect-btn');
+            connectBtn.textContent = isConnected ? 'Desconectar Dispositivo' : 'Conectar Dispositivo Arduino';
+            connectBtn.classList.toggle('from-blue-700', !isConnected);
+            connectBtn.classList.toggle('to-blue-500', !isConnected);
+            connectBtn.classList.toggle('from-red-700', isConnected);
+            connectBtn.classList.toggle('to-red-500', isConnected);
+
+            document.getElementById('connection-status').textContent = isConnected ? 'Estado: Conectado' : 'Estado: Desconectado';
+            document.getElementById('hardware-status').textContent = isConnected ? 'Conectado (En línea)' : 'Desconectado';
+            document.getElementById('hardware-status').classList.toggle('text-green-400', isConnected);
+            document.getElementById('hardware-status').classList.toggle('text-red-400', !isConnected);
+        }
+
+        function simulateBluetoothConnection() {
+            if (isConnected) {
+                disconnectBluetooth();
+            } else {
+                // Simulación de intento de conexión
+                document.getElementById('connection-status').textContent = 'Estado: Intentando conectar...';
+                showCustomAlert('Intentando establecer conexión Bluetooth...');
+
+                setTimeout(() => {
+                    isConnected = true;
+                    updateControlButtons();
+                    showCustomAlert('¡Conexión Bluetooth Exitosa con ESP32!');
+                }, 2000); // Simular un tiempo de conexión de 2 segundos
+            }
+        }
+
+        function disconnectBluetooth() {
+            isConnected = false;
+            updateControlButtons();
+            // Reiniciar estado de luces
+            lightStatus = { DELANTERAS: false, TRASERA: false };
+            const lightBtns = document.querySelectorAll('.light-btn');
+            lightBtns.forEach(btn => btn.classList.remove('bg-yellow-500', 'bg-red-500'));
+            showCustomAlert('Dispositivo desconectado.');
+        }
+
+        function sendCommand(command) {
+            if (!isConnected) {
+                showCustomAlert('Error: Debe conectar el dispositivo primero.');
+                return;
+            }
+
+            let action;
+            switch(command) {
+                case 'ADELANTE': action = 'Movimiento: AVANZAR'; break;
+                case 'ATRAS': action = 'Movimiento: RETROCEDER'; break;
+                case 'IZQUIERDA': action = 'Movimiento: GIRAR IZQUIERDA'; break;
+                case 'DERECHA': action = 'Movimiento: GIRAR DERECHA'; break;
+                case 'DETENER': action = 'Movimiento: DETENIDO'; break;
+                default: action = 'Comando desconocido';
+            }
+            showCustomAlert(`Comando enviado al ESP32: ${action}`);
+        }
+
+        function toggleLight(light) {
+            if (!isConnected) {
+                showCustomAlert('Error: Debe conectar el dispositivo primero.');
+                return;
+            }
+            
+            lightStatus[light] = !lightStatus[light];
+            const button = event.target.closest('button');
+            const isOn = lightStatus[light];
+            const stateText = isOn ? 'Encendido' : 'Apagado';
+            
+            if (light === 'DELANTERAS') {
+                button.classList.toggle('bg-yellow-500', isOn);
+                button.classList.toggle('bg-yellow-700/50', !isOn);
+            } else if (light === 'TRASERA') {
+                button.classList.toggle('bg-red-500', isOn);
+                button.classList.toggle('bg-red-700/50', !isOn);
+            }
+
+            showCustomAlert(`Comando enviado al ESP32: Luz ${light} ${stateText}`);
+        }
+
+
+       
+        document.addEventListener('DOMContentLoaded', () => {
+            updateAuthButtons(); 
+            updateControlButtons(); // Inicializar botones
+
+           
+            const hash = window.location.hash.substring(1);
+            if (hash) {
+                showPage(hash);
+            } else {
+                showPage('home');
+            }
+
+             // Reemplazar la función onclick de conectar para usar la lógica de simulación
+            const connectBtn = document.getElementById('connect-btn');
+            if (connectBtn) {
+                connectBtn.onclick = simulateBluetoothConnection;
+            }
+        });
+
+       
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash.substring(1);
+            if (hash) {
+                showPage(hash);
+            } else {
+                showPage('home');
+            }
+        });
+    </script>
+</body>
+</html>
